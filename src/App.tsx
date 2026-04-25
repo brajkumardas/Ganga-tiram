@@ -56,7 +56,7 @@ export default function App() {
       <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
-            src="/src/assets/images/ganga_river_hero_1777100817848.png" 
+            src="/images/ganga_river_hero_1777100817848.png" 
             alt="Ganga River" 
             className="w-full h-full object-cover brightness-75 scale-105"
           />
@@ -199,7 +199,7 @@ export default function App() {
         <div className="bg-[#2D241E] rounded-[3rem] overflow-hidden flex flex-col lg:flex-row items-stretch shadow-2xl">
           <div className="lg:w-1/2 relative min-h-[400px]">
             <img 
-              src="/src/assets/images/ganga_culture_heritage_1777100835789.png" 
+              src="/images/ganga_culture_heritage_1777100835789.png" 
               alt="Heritage Culture" 
               className="absolute inset-0 w-full h-full object-cover"
             />

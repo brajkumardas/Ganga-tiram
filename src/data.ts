@@ -178,27 +178,27 @@ export const contribFACE = [
     title: "Festivals",
     description: "Celebrate and promote the grand festivals like Kumbh Mela and Ganga Aarti that showcase India's soul.",
     icon: "Sparkles",
-    image: "/src/assets/images/ganga_festivals_aarti_1777100934524.png"
+    image: "/images/ganga_festivals_aarti_1777100934524.png"
   },
   {
     letter: "A",
     title: "Arts",
     description: "Support the local artisans and traditional crafts like Banarasi weaving and Madhubani painting.",
     icon: "Palette",
-    image: "/src/assets/images/ganga_art_crafts_1777100912325.png"
+    image: "/images/ganga_art_crafts_1777100912325.png"
   },
   {
     letter: "C",
     title: "Culture",
     description: "Experience and preserve the diverse cuisines, music, and philosophical traditions of the Ganga basin.",
     icon: "Music",
-    image: "/src/assets/images/ganga_culture_heritage_1777100835789.png"
+    image: "/images/ganga_culture_heritage_1777100835789.png"
   },
   {
     letter: "E",
     title: "Environmental Preservation",
     description: "Join the mission to clean Mother Ganga, protect river dolphins, and restore the ecosystem.",
     icon: "Leaf",
-    image: "/src/assets/images/ganga_environment_preservation_1777100892208.png"
+    image: "/images/ganga_environment_preservation_1777100892208.png"
   }
 ];
