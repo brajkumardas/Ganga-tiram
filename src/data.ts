@@ -22,36 +22,6 @@ export const gangaPlaces: GangaPlace[] = [
   },
   {
     id: 2,
-    name: "Gangotri",
-    state: "Uttarakhand",
-    description: "One of the four sites in the Chota Char Dham pilgrimage circuit.",
-    features: ["Temple", "Spiritual", "Snowy Peaks"],
-    cuisine: "Garhwali Cuisine",
-    art: "Temple Architecture",
-    heritage: "Ancient shrine of Ganga"
-  },
-  {
-    id: 3,
-    name: "Uttarkashi",
-    state: "Uttarakhand",
-    description: "Known as the 'Kashi of the North', famous for its Kashi Vishwanath temple.",
-    features: ["Temples", "Riverside Ghats", "Adventure"],
-    cuisine: "Pahadi snacks",
-    art: "Wood carving",
-    heritage: "Religious Significance"
-  },
-  {
-    id: 4,
-    name: "Devprayag",
-    state: "Uttarakhand",
-    description: "The confluence of Bhagirathi and Alaknanda rivers, where the Ganga officially begins.",
-    features: ["Sangam", "Raghunathji Temple", "Suspension Bridges"],
-    cuisine: "Traditional Uttarakhandi sweets",
-    art: "Stone inscriptions",
-    heritage: "Birthplace of Ganga name"
-  },
-  {
-    id: 5,
     name: "Rishikesh",
     state: "Uttarakhand",
     description: "The Yoga Capital of the World and a gateway to the Himalayas.",
@@ -61,7 +31,7 @@ export const gangaPlaces: GangaPlace[] = [
     heritage: "Ashram culture"
   },
   {
-    id: 6,
+    id: 3,
     name: "Haridwar",
     state: "Uttarakhand",
     description: "One of the seven holiest places in Hinduism, where Ganga enters the plains.",
@@ -71,17 +41,7 @@ export const gangaPlaces: GangaPlace[] = [
     heritage: "Ancient Gate of the Gods"
   },
   {
-    id: 7,
-    name: "Kanpur",
-    state: "Uttar Pradesh",
-    description: "A major industrial hub on the banks of Ganga, showing the river's economic importance.",
-    features: ["Industrial Heritage", "Bithoor", "JK Temple"],
-    cuisine: "Street food, Thaggu Ke Laddu",
-    art: "Leather Craft",
-    heritage: "Historical 1857 Mutiny sites"
-  },
-  {
-    id: 8,
+    id: 4,
     name: "Prayagraj",
     state: "Uttar Pradesh",
     description: "The site of the Triveni Sangam, the confluence of Ganga, Yamuna, and the mythical Saraswati.",
@@ -91,7 +51,7 @@ export const gangaPlaces: GangaPlace[] = [
     heritage: "Cultural hub of India"
   },
   {
-    id: 9,
+    id: 5,
     name: "Varanasi",
     state: "Uttar Pradesh",
     description: "One of the world's oldest continuously inhabited cities, the spiritual heart of India.",
@@ -101,7 +61,17 @@ export const gangaPlaces: GangaPlace[] = [
     heritage: "Living Heritage City"
   },
   {
-    id: 10,
+    id: 6,
+    name: "Gangasagar",
+    state: "West Bengal",
+    description: "Where the holy Ganga meets the Bay of Bengal.",
+    features: ["Sagar Sangam", "Kapil Muni Temple", "Sagar Mela"],
+    cuisine: "Bengali delicacies",
+    art: "Coir craft",
+    heritage: "Ultimate Pilgrimage point"
+  },
+  {
+    id: 11,
     name: "Patna",
     state: "Bihar",
     description: "Ancient Pataliputra, the capital of Maurya and Gupta empires.",
@@ -111,27 +81,7 @@ export const gangaPlaces: GangaPlace[] = [
     heritage: "Imperial History"
   },
   {
-    id: 11,
-    name: "Munger",
-    state: "Bihar",
-    description: "Famous for its fort and the Bihar School of Yoga.",
-    features: ["Munger Fort", "Yoga School", "Hot Springs"],
-    cuisine: "Thekua, Bihari snacks",
-    art: "Gun making (historical)",
-    heritage: "Ancient Anga Kingdom"
-  },
-  {
     id: 12,
-    name: "Sultanganj",
-    state: "Bihar",
-    description: "Known for the Ajgaibi Nath Temple situated on a rock in the middle of Ganga.",
-    features: ["Rock Temple", "Shravani Mela", "Pilgrimage"],
-    cuisine: "Local sweets",
-    art: "Terracotta (Vikramshila nearby)",
-    heritage: "Kanwar Yatra starting point"
-  },
-  {
-    id: 13,
     name: "Bhagalpur",
     state: "Bihar",
     description: "The Silk City, famous for its Tussar silk and as a hub for river dolphin conservation.",
@@ -141,17 +91,17 @@ export const gangaPlaces: GangaPlace[] = [
     heritage: "Ancient University ruins"
   },
   {
-    id: 14,
-    name: "Mayapur",
+    id: 13,
+    name: "Murshidabad",
     state: "West Bengal",
-    description: "The spiritual headquarters of ISKCON.",
-    features: ["Grand Palace", "Kirtan", "Museum"],
-    cuisine: "Satvic Prasadam",
-    art: "Devotional Music",
-    heritage: "Chaitanya Mahaprabhu birthplace"
+    description: "The last capital of independent Bengal, famous for Hazarduari Palace.",
+    features: ["Hazarduari Palace", "Silk industry", "Terracotta temples"],
+    cuisine: "Murshidabadi Biryani",
+    art: "Ivory carving (historical)",
+    heritage: "Nawabi History"
   },
   {
-    id: 15,
+    id: 14,
     name: "Kolkata",
     state: "West Bengal",
     description: "The City of Joy, with a rich colonial and cultural history along the Hooghly.",
@@ -159,16 +109,6 @@ export const gangaPlaces: GangaPlace[] = [
     cuisine: "Rosogolla, Mishti Doi, Fish Fry",
     art: "Kalighat Painting",
     heritage: "Renaissance of Bengal"
-  },
-  {
-    id: 16,
-    name: "Gangasagar",
-    state: "West Bengal",
-    description: "Where the holy Ganga meets the Bay of Bengal.",
-    features: ["Sagar Sangam", "Kapil Muni Temple", "Sagar Mela"],
-    cuisine: "Bengali delicacies",
-    art: "Coir craft",
-    heritage: "Ultimate Pilgrimage point"
   }
 ];
 

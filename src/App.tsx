@@ -26,25 +26,174 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('journey');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedPlace, setSelectedPlace] = useState<GangaPlace | null>(null);
+  const [showAllPlaces, setShowAllPlaces] = useState(false);
 
   const filteredPlaces = gangaPlaces.filter(place => 
     place.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     place.state.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const prominentPlaces = filteredPlaces.slice(0, 6);
+
+  if (showAllPlaces) {
+    return (
+      <div className="min-h-screen bg-[#FDFCF8] text-[#2D241E] font-sans selection:bg-[#3A7CA5] selection:text-white">
+        <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-[#E8DCC4] px-6 py-4">
+          <div className="max-w-7xl mx-auto flex justify-between items-center">
+            <div className="flex items-center gap-2 cursor-pointer" onClick={() => setShowAllPlaces(false)}>
+              <Waves className="text-[#3A7CA5] w-8 h-8" />
+              <span className="text-2xl font-serif font-bold tracking-tight text-[#2D241E]">Ganga Tiram</span>
+            </div>
+            <button 
+              onClick={() => setShowAllPlaces(false)}
+              className="text-[#3A7CA5] font-bold flex items-center gap-2 hover:translate-x-[-4px] transition-transform"
+            >
+              <ChevronRight className="rotate-180" size={20} /> Back to Home
+            </button>
+          </div>
+        </nav>
+
+        <div className="max-w-7xl mx-auto px-6 pt-32 pb-20">
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-16 border-b border-[#E8DCC4] pb-8"
+          >
+            <h1 className="text-4xl md:text-5xl font-serif font-bold text-[#2D241E] mb-4">The Complete Sacred Path</h1>
+            <p className="text-[#5A4B3F] text-lg max-w-3xl">Explore every major landmark, heritage site, and spiritual hub along the 2,525 km journey of the holy river.</p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center">
+            {filteredPlaces.map((place) => (
+              <motion.div 
+                key={place.id}
+                layout
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                whileHover={{ y: -5 }}
+                onClick={() => setSelectedPlace(place)}
+                className="bg-white rounded-3xl p-8 border border-[#E8DCC4] hover:shadow-xl transition-all group cursor-pointer w-full max-w-[320px]"
+              >
+                <div className="flex justify-between items-start mb-6">
+                  <span className="text-[#3A7CA5] text-[10px] font-black uppercase tracking-widest bg-[#3A7CA5]/10 px-3 py-1 rounded-full">{place.state}</span>
+                  <MapPin className="text-[#A8988A] group-hover:text-[#3A7CA5] transition-colors" size={20} />
+                </div>
+                <h4 className="text-2xl font-serif font-bold text-[#2D241E] mb-3 group-hover:text-[#3A7CA5] transition-colors">{place.name}</h4>
+                <p className="text-[#5A4B3F] text-sm leading-relaxed mb-6 line-clamp-3">{place.description}</p>
+                <div className="flex flex-wrap gap-2 mt-auto">
+                  {place.features.slice(0, 2).map((f, i) => (
+                    <span key={i} className="text-[9px] font-bold text-[#A8988A] border border-[#E8DCC4] px-2 py-1 rounded-md uppercase tracking-wider">{f}</span>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Reuse the Place Detail Modal */}
+        <AnimatePresence>
+          {selectedPlace && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
+              onClick={() => setSelectedPlace(null)}
+            >
+              <motion.div 
+                initial={{ scale: 0.9, y: 20 }}
+                animate={{ scale: 1, y: 0 }}
+                exit={{ scale: 0.9, y: 20 }}
+                className="bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="relative h-64 bg-[#3A7CA5]">
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#2D241E] to-transparent"></div>
+                  <button 
+                    onClick={() => setSelectedPlace(null)}
+                    className="absolute top-6 right-6 bg-white/20 hover:bg-white/40 text-white p-2 rounded-full backdrop-blur-md"
+                  >
+                    <ChevronDown />
+                  </button>
+                  <div className="absolute bottom-8 left-8 text-white">
+                    <span className="bg-[#D4A373] text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter mb-4 inline-block">{selectedPlace.state}</span>
+                    <h2 className="text-4xl font-serif font-bold">{selectedPlace.name}</h2>
+                  </div>
+                </div>
+                
+                <div className="p-8 md:p-12">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div>
+                      <h3 className="text-[#3A7CA5] font-black text-xs uppercase tracking-widest mb-4 flex items-center gap-2">
+                        <Info size={14} /> Description
+                      </h3>
+                      <p className="text-[#5A4B3F] leading-relaxed mb-8">{selectedPlace.description}</p>
+                      
+                      <h3 className="text-[#3A7CA5] font-black text-xs uppercase tracking-widest mb-4 flex items-center gap-2">
+                        <MapPin size={14} /> Highlights
+                      </h3>
+                      <ul className="grid grid-cols-2 gap-4">
+                        {selectedPlace.features.map((f, i) => (
+                          <li key={i} className="flex items-center gap-2 text-sm text-[#5A4B3F]">
+                            <div className="w-1.5 h-1.5 bg-[#D4A373] rounded-full"></div>
+                            {f}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    
+                    <div className="space-y-8">
+                      <div className="bg-[#FDFCF8] p-6 rounded-2xl border border-[#E8DCC4]">
+                        <h4 className="font-bold flex items-center gap-2 mb-3">
+                          <Waves className="text-[#3A7CA5]" size={18} /> Heritage
+                        </h4>
+                        <p className="text-sm text-[#5A4B3F]">{selectedPlace.heritage}</p>
+                      </div>
+                      <div className="bg-[#FDFCF8] p-6 rounded-2xl border border-[#E8DCC4]">
+                        <h4 className="font-bold flex items-center gap-2 mb-3">
+                          <Palette className="text-[#3A7CA5]" size={18} /> Art & Craft
+                        </h4>
+                        <p className="text-sm text-[#5A4B3F]">{selectedPlace.art}</p>
+                      </div>
+                      <div className="bg-[#FDFCF8] p-6 rounded-2xl border border-[#E8DCC4]">
+                        <h4 className="font-bold flex items-center gap-2 mb-3">
+                          <Music className="text-[#3A7CA5]" size={18} /> Cuisine
+                        </h4>
+                        <p className="text-sm text-[#5A4B3F]">{selectedPlace.cuisine}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#FDFCF8] text-[#2D241E] font-sans">
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-[#E8DCC4] px-6 py-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             <Waves className="text-[#3A7CA5] w-8 h-8" />
-            <span className="text-2xl font-serif font-bold tracking-tight text-[#2D241E]">Mother Ganga</span>
+            <span className="text-2xl font-serif font-bold tracking-tight text-[#2D241E]">Ganga Tiram</span>
           </div>
           <div className="hidden md:flex gap-8 text-sm font-medium uppercase tracking-widest text-[#5A4B3F]">
-            <button onClick={() => setActiveTab('journey')} className={`${activeTab === 'journey' ? 'text-[#3A7CA5] border-b-2 border-[#3A7CA5]' : ''} hover:text-[#3A7CA5] transition-colors`}>Journey</button>
-            <button onClick={() => setActiveTab('heritage')} className={`${activeTab === 'heritage' ? 'text-[#3A7CA5] border-b-2 border-[#3A7CA5]' : ''} hover:text-[#3A7CA5] transition-colors`}>Heritage</button>
-            <button onClick={() => setActiveTab('action')} className={`${activeTab === 'action' ? 'text-[#3A7CA5] border-b-2 border-[#3A7CA5]' : ''} hover:text-[#3A7CA5] transition-colors`}>Contribute</button>
+            <button onClick={() => {
+              document.getElementById('journey')?.scrollIntoView({ behavior: 'smooth' });
+              setActiveTab('journey');
+            }} className={`${activeTab === 'journey' ? 'text-[#3A7CA5] border-b-2 border-[#3A7CA5]' : ''} hover:text-[#3A7CA5] transition-colors`}>Journey</button>
+            <button onClick={() => {
+              document.getElementById('heritage')?.scrollIntoView({ behavior: 'smooth' });
+              setActiveTab('heritage');
+            }} className={`${activeTab === 'heritage' ? 'text-[#3A7CA5] border-b-2 border-[#3A7CA5]' : ''} hover:text-[#3A7CA5] transition-colors`}>Heritage</button>
+            <button onClick={() => {
+              document.getElementById('action')?.scrollIntoView({ behavior: 'smooth' });
+              setActiveTab('action');
+            }} className={`${activeTab === 'action' ? 'text-[#3A7CA5] border-b-2 border-[#3A7CA5]' : ''} hover:text-[#3A7CA5] transition-colors`}>Contribute</button>
           </div>
           <button className="bg-[#3A7CA5] text-white px-6 py-2 rounded-full text-sm font-bold hover:bg-[#2F668A] transition-colors shadow-lg">
             Donate
@@ -59,6 +208,9 @@ export default function App() {
             src="/images/ganga_river_hero_1777100817848.png" 
             alt="Ganga River" 
             className="w-full h-full object-cover brightness-75 scale-105"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1590053450410-090c29188092?auto=format&fit=crop&q=80&w=2000';
+            }}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-[#FDFCF8]"></div>
         </div>
@@ -86,11 +238,14 @@ export default function App() {
             transition={{ delay: 0.5 }}
             className="flex flex-wrap justify-center gap-4"
           >
-            <button className="bg-[#D4A373] text-white px-8 py-4 rounded-full font-bold hover:bg-[#B1895D] transition-all flex items-center gap-2 shadow-xl">
+            <button 
+              onClick={() => document.getElementById('journey')?.scrollIntoView({ behavior: 'smooth' })}
+              className="bg-[#D4A373] text-white px-8 py-4 rounded-full font-bold hover:bg-[#B1895D] transition-all flex items-center gap-2 shadow-xl"
+            >
               Start the Journey <ChevronRight size={20} />
             </button>
             <button className="bg-white/20 backdrop-blur-md border border-white/40 text-white px-8 py-4 rounded-full font-bold hover:bg-white/30 transition-all">
-              Clean Ganga Mission
+              Buy the book
             </button>
           </motion.div>
         </div>
@@ -104,7 +259,7 @@ export default function App() {
           <div className="text-center mb-16">
             <h2 className="text-[#3A7CA5] font-black text-sm uppercase tracking-[0.3em] mb-4">Preservation Framework</h2>
             <h3 className="text-4xl md:text-5xl font-serif font-bold text-[#2D241E] mb-6">The FACE of Ganga</h3>
-            <p className="text-[#5A4B3F] max-w-2xl mx-auto">To preserve Mother Ganga, we focus on four pillars that define her essence and ensure her future.</p>
+            <p className="text-[#5A4B3F] max-w-2xl mx-auto italic">"F - Festivals, A - Arts, C - Culture, E - Environmental Preservation"</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -119,6 +274,9 @@ export default function App() {
                   src={(item as any).image} 
                   alt={item.title}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1590159411986-3023021f1d1d?auto=format&fit=crop&q=80&w=600';
+                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent group-hover:via-black/60 transition-colors"></div>
                 
@@ -144,64 +302,84 @@ export default function App() {
         </div>
 
         {/* Journey Section */}
-        <div className="mb-32">
+        <div id="journey" className="mb-32">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
             <div>
               <h2 className="text-[#D4A373] font-black text-sm uppercase tracking-[0.3em] mb-4">The Sacred Trail</h2>
-              <h3 className="text-4xl font-serif font-bold text-[#2D241E]">75 Places of Heritage</h3>
-              <p className="text-[#5A4B3F] mt-2">From the glaciers of Gomukh to the endless sea at Gangasagar.</p>
+              <h3 className="text-4xl font-serif font-bold text-[#2D241E]">The Heritage Path</h3>
+              <p className="text-[#5A4B3F] mt-2">Exploring the major landmarks from the glaciers to the delta.</p>
             </div>
-            <div className="relative w-full md:w-80">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#A8988A]" size={18} />
+            <div className="relative w-full md:w-80 border-b border-[#E8DCC4] pb-2">
+              <Search className="absolute left-0 top-1/2 -translate-y-1/2 text-[#A8988A]" size={18} />
               <input 
                 type="text" 
-                placeholder="Search places or states..." 
+                placeholder="Search sacred places..." 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-6 py-3 rounded-full border border-[#E8DCC4] bg-white focus:outline-none focus:ring-2 focus:ring-[#3A7CA5] transition-all"
+                className="w-full pl-10 pr-4 py-2 bg-transparent focus:outline-none text-[#2D241E]"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <AnimatePresence>
-              {filteredPlaces.map((place) => (
-                <motion.div 
-                  key={place.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  whileHover={{ scale: 1.02 }}
-                  onClick={() => setSelectedPlace(place)}
-                  className="bg-white rounded-2xl border border-[#E8DCC4] overflow-hidden cursor-pointer shadow-sm hover:shadow-md transition-all group"
-                >
-                  <div className="p-6">
-                    <div className="flex justify-between items-start mb-4">
-                      <span className="text-[#3A7CA5] font-bold text-xs uppercase tracking-widest">{place.state}</span>
-                      <MapPin size={16} className="text-[#D4A373]" />
+          <div className="flex flex-col items-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center w-full">
+              <AnimatePresence>
+                {prominentPlaces.map((place) => (
+                  <motion.div 
+                    key={place.id}
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    whileHover={{ y: -10 }}
+                    onClick={() => setSelectedPlace(place)}
+                    className="bg-white rounded-[2.5rem] p-10 border border-[#E8DCC4] shadow-sm hover:shadow-2xl transition-all group cursor-pointer w-full max-w-[380px] h-full flex flex-col"
+                  >
+                    <div className="flex justify-between items-start mb-8">
+                      <div className="bg-[#F4F1EA] p-4 rounded-2xl group-hover:bg-[#3A7CA5] transition-colors">
+                        <MapPin className="text-[#2D241E] group-hover:text-white" size={24} />
+                      </div>
+                      <span className="text-[#D4A373] text-xs font-bold uppercase tracking-widest">{place.state}</span>
                     </div>
-                    <h5 className="text-xl font-bold mb-2 group-hover:text-[#3A7CA5] transition-colors">{place.name}</h5>
-                    <p className="text-[#5A4B3F] text-sm line-clamp-2 mb-4 leading-relaxed">{place.description}</p>
+                    <h4 className="text-3xl font-serif font-bold mb-4 group-hover:text-[#3A7CA5] transition-colors">{place.name}</h4>
+                    <p className="text-[#5A4B3F] mb-10 leading-relaxed font-light flex-grow">{place.description}</p>
+                    
                     <div className="flex flex-wrap gap-2">
                       {place.features.slice(0, 2).map((f, i) => (
-                        <span key={i} className="text-[10px] px-2 py-1 bg-[#F4EDDE] rounded-full text-[#5A4B3F] font-semibold">{f}</span>
+                        <span key={i} className="text-[10px] px-3 py-1.5 bg-[#F4EDDE] rounded-full text-[#5A4B3F] font-bold uppercase tracking-wider">{f}</span>
                       ))}
                     </div>
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+
+            {filteredPlaces.length > 6 && (
+              <motion.button 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                onClick={() => {
+                  setShowAllPlaces(true);
+                  window.scrollTo({ top: 0, behavior: 'instant' });
+                }}
+                className="mt-16 bg-[#2D241E] text-white px-12 py-5 rounded-full font-bold hover:bg-[#3A7CA5] hover:scale-105 transition-all shadow-xl flex items-center gap-3"
+              >
+                View More Places <ChevronRight size={20} />
+              </motion.button>
+            )}
           </div>
         </div>
 
         {/* Heritage & Culture Highlight */}
-        <div className="bg-[#2D241E] rounded-[3rem] overflow-hidden flex flex-col lg:flex-row items-stretch shadow-2xl">
+        <div id="heritage" className="bg-[#2D241E] rounded-[3rem] overflow-hidden flex flex-col lg:flex-row items-stretch shadow-2xl">
           <div className="lg:w-1/2 relative min-h-[400px]">
             <img 
               src="/images/ganga_culture_heritage_1777100835789.png" 
               alt="Heritage Culture" 
               className="absolute inset-0 w-full h-full object-cover"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1548013146-72479768bbaa?auto=format&fit=crop&q=80&w=1000';
+              }}
             />
           </div>
           <div className="lg:w-1/2 p-12 lg:p-20 flex flex-col justify-center text-white">
@@ -363,7 +541,7 @@ export default function App() {
             <div className="md:col-span-2">
               <div className="flex items-center gap-2 mb-8">
                 <Waves className="text-[#3A7CA5] w-8 h-8" />
-                <span className="text-3xl font-serif font-bold tracking-tight">Mother Ganga</span>
+                <span className="text-3xl font-serif font-bold tracking-tight">Ganga Tiram</span>
               </div>
               <p className="text-gray-400 max-w-md leading-relaxed">
                 Dedicated to the preservation, purification, and promotion of the holy river and the civilizational richness she has nurtured for millennia.
